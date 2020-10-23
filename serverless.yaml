@@ -1,0 +1,36 @@
+service: yc-apollo-function
+frameworkVersion: ">=1.1.0"
+configValidationMode: off
+
+provider:
+  name: yandex-cloud
+  runtime: nodejs12-preview
+
+plugins:
+  - serverless-yandex-cloud
+
+package:
+  exclude:
+    - ./**
+  include:
+    - ./package.json
+    - ./*.js
+    - ./yc-apollo-server/*.js
+
+functions:
+  graphql:
+    # this is formatted as <FILENAME>.<HANDLER>
+    handler: graphql.graphqlHandler
+    memory: 128
+    timeout: 5
+    events:
+      - http:
+          path: graphql
+          method: post
+          cors: true
+      - http:
+          path: graphql
+          method: get
+          cors: true
+
+

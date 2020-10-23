@@ -1,0 +1,12 @@
+{
+  "name": "yc-apollo-function",
+  "version": "1.0.0",
+  "dependencies": {
+    "apollo-server-core": "^2.18.2",
+    "graphql": "^15.3.0"
+  },
+  "devDependencies": {
+    "serverless": "^2.8.0",
+    "serverless-yandex-cloud": "latest"
+  }
+}
