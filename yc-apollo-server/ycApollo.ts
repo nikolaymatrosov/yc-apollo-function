@@ -48,7 +48,7 @@ export type Handler<TEvent = any, TResult = any> = (
     context: YcFunctionHttpContext,
 ) => void | TResult;
 
-export type YCloudFunctionHandler = Handler<YcFunctionHttpEvent, YcFunctionResult>
+export type YCloudFunctionHandler = Handler<YcFunctionHttpEvent, Promise<YcFunctionResult>>
 
 export interface YcGraphQLOptionsFunction {
     (event: YcFunctionHttpEvent, context: YcFunctionHttpContext): ValueOrPromise<GraphQLOptions>;
@@ -67,10 +67,10 @@ export function graphqlYCFunction(
         );
     }
 
-    const graphqlHandler: YCloudFunctionHandler = (
+    const graphqlHandler: YCloudFunctionHandler = async (
         event,
         context,
-    ): YcFunctionResult => {
+    ): Promise<YcFunctionResult> => {
         let {body, isBase64Encoded} = event;
 
         if (body && isBase64Encoded) {
@@ -97,7 +97,7 @@ export function graphqlYCFunction(
             query = event.queryStringParameters || {};
         }
 
-        runHttpQuery([event, context], {
+        return await runHttpQuery([event, context], {
             method: event.httpMethod,
             options: options,
             query,
@@ -110,12 +110,12 @@ export function graphqlYCFunction(
             ({graphqlResponse, responseInit}) => {
                 const body = graphqlResponse.trim();
                 const res = {
-                    body:'{"data":{}}',
-                    // statusCode: 200,
-                    // headers: {
-                    //     'Content-Type': 'application/json',
-                    //     'Content-Length': `${body.length}`
-                    // },
+                    body,
+                    statusCode: 200,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Content-Length': `${body.length}`
+                    },
                 };
                 console.log(res)
                 return res;
@@ -123,13 +123,14 @@ export function graphqlYCFunction(
             (error: HttpQueryError) => {
                 if ('HttpQueryError' !== error.name) {
                     return {
-                        error: JSON.stringify(error)
+                        statusCode: 500,
+                        body: JSON.stringify(error)
                     }
                 }
                 return {
                     body: error.message,
                     statusCode: error.statusCode,
-                    // headers: error.headers,
+                    headers: error.headers,
                 };
             }
         );

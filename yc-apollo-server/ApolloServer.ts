@@ -248,7 +248,7 @@ export class ApolloServer extends ApolloServerBase {
                 }
             };
 
-            fileUploadHandler(() => graphqlYCFunction(async () => {
+            return await fileUploadHandler(() => graphqlYCFunction(async () => {
                 // In a world where this `createHandler` was async, we might avoid this
                 // but since we don't want to introduce a breaking change to this API
                 // (by switching it to `async`), we'll leverage the
