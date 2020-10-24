@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "dependencies": {
     "apollo-server-core": "^2.18.2",
-    "graphql": "^15.3.0"
+    "graphql": "^15.3.0",
+    "ydb-sdk": "^1.4.3"
   },
   "devDependencies": {
+    "@types/pino": "latest",
     "serverless": "^2.8.0",
     "serverless-yandex-cloud": "latest"
   }

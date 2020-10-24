@@ -13,14 +13,15 @@ package:
   exclude:
     - ./**
   include:
+    - ./env.json
+    - ./sa.json
     - ./package.json
-    - ./*.js
-    - ./yc-apollo-server/*.js
+    - ./src/**/*.js
 
 functions:
   graphql:
     # this is formatted as <FILENAME>.<HANDLER>
-    handler: graphql.graphqlHandler
+    handler: src/graphql.graphqlHandler
     memory: 128
     timeout: 5
     events:

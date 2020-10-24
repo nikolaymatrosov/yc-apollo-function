@@ -3,7 +3,8 @@
     "lib": ["ES2019"],
     "module": "commonjs",
     "target": "ES2019",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "experimentalDecorators": true
 //    "sourceMap": true
   },
   "exclude": [

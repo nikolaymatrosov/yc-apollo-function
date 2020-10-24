@@ -109,7 +109,7 @@ export function graphqlYCFunction(
         }).then(
             ({graphqlResponse, responseInit}) => {
                 const body = graphqlResponse.trim();
-                const res = {
+                return  {
                     body,
                     statusCode: 200,
                     headers: {
@@ -117,8 +117,6 @@ export function graphqlYCFunction(
                         'Content-Length': `${body.length}`
                     },
                 };
-                console.log(res)
-                return res;
             },
             (error: HttpQueryError) => {
                 if ('HttpQueryError' !== error.name) {

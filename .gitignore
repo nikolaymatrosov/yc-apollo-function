@@ -118,3 +118,5 @@ dist
 .pnp.*
 
 *.js
+sa.json
+env.json
